@@ -118,24 +118,8 @@ An example code for testing OpenAI models are provided in `test_pipeline_gpt4o_s
 | `--testset` | `ChartQA` | Which subset to evaluate; set to `All` to iterate over the four datasets. |
 | `--end_idx` | `0` | Evaluate only the first *N* samples; `0` means all samples. |
 | `--save_name` | `try_results_gpt4o_simple.json` | Where to store per-sample details and aggregated results. |
-| `--test_version` | `1` | Prompt style: `1` (generation), `2` (selection w/ text), `3` (selection w/o text). |
+| `--test_version` | `1` | Prompt style: `1` (OCR-free Grounding ), `2` (OCR-based Grounding), `3` (OCR-based Grounding w/o Text). |
 | `--model_name` | `gpt-4o-mini` | OpenAI model identifier (e.g., `gpt-4o`, `gpt-4o-mini`). |
-
-#### Core functions
-
-* **`parse_args()`** – exposes the CLI arguments listed above.
-* **`get_question_prompt()`** – builds the task prompt from question, OCR boxes and image.
-* **`call_gpt()`** – sends the prompt & image to the OpenAI API and retrieves the raw response.
-* **`evaluate()`** – extracts predicted boxes and computes IoU / P / R / F1.
-* **`main()`** – orchestration loop: iterate samples → prompt → model call → metric calculation → save.
-
-Example: evaluate the first 5 DocVQA samples with GPT-4o-mini
-
-```bash
-python test_pipeline_gpt4o_simple.py \
-  --testset DocVQA \
-  --model_name gpt-4o-mini
-```
 
 > **Note**: export your `OPENAI_API_KEY` environment variable before running the script.
 
