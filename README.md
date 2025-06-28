@@ -116,13 +116,13 @@ An example code for testing OpenAI models are provided in `test_pipeline_gpt4o_s
 
 #### Command-line arguments
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--testset` | `ChartQA` | Which subset to evaluate; set to `All` to iterate over the four datasets. |
-| `--end_idx` | `0` | Evaluate only the first *N* samples; `0` means all samples. |
-| `--save_name` | `try_results_gpt4o_simple.json` | Where to store per-sample details and aggregated results. |
-| `--test_version` | `1` | Prompt style: `1` (OCR-free Grounding ), `2` (OCR-based Grounding), `3` (OCR-based Grounding w/o Text). |
-| `--model_name` | `gpt-4o-mini` | OpenAI model identifier (e.g., `gpt-4o`, `gpt-4o-mini`). |
+| Flag | Description |
+|------|-------------|
+| `--testset` | Which subset to evaluate; set to `All` to iterate over the four datasets. |
+| `--end_idx` | Evaluate only the first *N* samples; `0` means all samples. |
+| `--save_name` | Where to store per-sample details and aggregated results. |
+| `--test_version` | Prompt style: `1` (OCR-free Grounding ), `2` (OCR-based Grounding), `3` (OCR-based Grounding w/o Text). |
+| `--model_name` | OpenAI model identifier (e.g., `gpt-4o`, `gpt-4o-mini`). |
 
 > **Note**: export your `OPENAI_API_KEY` environment variable before running the script.
 
