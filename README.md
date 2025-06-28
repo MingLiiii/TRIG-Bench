@@ -43,7 +43,7 @@ TRIG-Bench consists of 800 question-answer pairs manually collected from DocVQA,
 
 - **Step 1 Preprocessing**: Use PaddleOCR2 to obtain initial OCR information.
 - **Step 2 Generation**: Draw indexed OCR bounding boxes on the original image and provide indexed OCR information in the prompt for LLM alignment.
-- **Step 3 Correction**: Apply a Reflection & Rectification module to check and correct the selected bounding boxes.
+- **Step 3 Correction**: Apply a Reflection & Rectification module to check and correct the selected boxes.
 - **Step 4 Human Evaluation**: Human evaluation of samples processed by the LLM.
 
 <p align="center" width="45%">
