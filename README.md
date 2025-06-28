@@ -87,11 +87,11 @@ Key points:
   "question": "<Q>",          // question string
   "answers": ["<A>", ...],   // one or more acceptable answers
   "bbox_all": [                // OCR tokens or lines (top, left, width, height, text)
-    [t, l, w, h, "text"],
+    [top, left, width, height, "text"],
     ...
   ],
   "grounding": [               // subset of boxes that support the answer
-    [t, l, w, h, "text"],
+    [top, left, width, height, "text"],
     ...
   ]
 }
