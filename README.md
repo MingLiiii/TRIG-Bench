@@ -9,7 +9,10 @@ Reasoning and Planning for LLMs @ ICLR2025 || ICLR 2025 Workshop SynthData
 
 This is the repo for the TRIG project, which introduces the task of **Text-Rich Image Grounding (TRIG)** for LMMLs. <br>
 
-This repo mainly contains the benchmark data for TRIG and the corresponding minimal evaluation scripts. 
+The repo contains:
+
+- Benchmark data for TRIG
+- Corresponding evaluation scripts
 
 ## Contents
 - [Overview](#overview)
