@@ -152,7 +152,7 @@ Below are one-shot visual examples from each TRIG-Bench subset.
 
 ## Citation
 
-Please consider citing our papers if you think our codes, data, or models are useful. Thank you! <br>
+Please consider citing our papers if you think our codes, data, or models are useful to your research. Thank you! <br>
 
 ```
 @article{li2025towards,
