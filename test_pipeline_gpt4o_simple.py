@@ -7,6 +7,7 @@ import base64
 import argparse
 import re
 from typing import List, Tuple
+from PIL import Image
 
 import numpy as np
 from tqdm import tqdm
@@ -83,8 +84,6 @@ def get_question_prompt(
     image_path: str,
     test_version: str,
 ) -> str:
-    from PIL import Image
-
     with Image.open(image_path) as img:
         width, height = img.size
 
@@ -137,13 +136,39 @@ def _calculate_f1(precision: float, recall: float):
     return 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
 
 
-def evaluate(model_outputs: str, grounding_gt, test_version: str):
+def boxes_to_canvas(boxes, canvas_size):
+    
+    canvas = np.zeros(canvas_size, dtype=np.uint8)
+    for (y_top, x_left, width, height) in boxes:
+        y_top, x_left, width, height = int(y_top), int(x_left), int(width), int(height)  # Ensure integer coordinates
+        y_bottom = y_top + height
+        x_right = x_left + width
+        canvas[y_top:y_bottom, x_left:x_right] = 1
+        
+    return canvas
+
+def calculate_iou_from_canvas(gt_boxes, pred_boxes, canvas_size=(200, 200)):
+    
+    gt_canvas = boxes_to_canvas(gt_boxes, canvas_size)
+    pred_canvas = boxes_to_canvas(pred_boxes, canvas_size)
+    intersection = np.logical_and(gt_canvas, pred_canvas).sum()
+    union = np.logical_or(gt_canvas, pred_canvas).sum()
+    iou = intersection / union if union > 0 else 0
+
+    return iou
+
+
+def evaluate(model_outputs: str, grounding_gt, ori_iamge_path, test_version: str):
     """Evaluate model output against ground truth."""
     gt_boxes = [(tp[0], tp[1], tp[2], tp[3]) for tp in grounding_gt]
 
     if test_version == "1":
         pred_boxes = _extract_from_plain_v1(model_outputs)
-        iou = _calculate_iou(pred_boxes, gt_boxes)
+        image = Image.open(ori_iamge_path).convert('RGB')
+        ori_img_width, ori_img_height = image.size
+        iou = calculate_iou_from_canvas(gt_boxes, pred_boxes, canvas_size=(ori_img_height, ori_img_width))
+        print(pred_boxes)
+        print(gt_boxes)
         return {"iou": iou}, [iou]
 
     if test_version == "2":
@@ -251,7 +276,7 @@ def main():
                 print(f"[Warning] GPT call failed on sample {i} (testset {testset}): {e}")
                 model_output = ""
 
-            metrics_dict, metrics_list = evaluate(model_output, grounding_gt, args.test_version)
+            metrics_dict, metrics_list = evaluate(model_output, grounding_gt, image_path, args.test_version)
             per_sample_metrics.append(metrics_list)
 
             sample_save = {
